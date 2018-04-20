@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Care from '@/pages/care/care'
 import Share from '@/pages/share/share'
+import AuditList from '@/pages/audit/back_list'
+import AuditDetail from '@/pages/audit/back_detail'
 import MovHot from '@/pages/share/component/mov_hot';
 import MovNew from '@/pages/share/component/mov_new';
 
@@ -12,6 +14,16 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'AuditDetail',
+      component: AuditDetail
+    },
+    {
+      path: '/bac',
+      name: 'AuditList',
+      component: AuditList
+    },
+    {
+      path: '/care',
       name: 'Care',
       component: Care
     },

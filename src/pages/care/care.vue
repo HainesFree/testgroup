@@ -369,8 +369,11 @@
       }
     },
     created() {
-      var url ='mtalk/ audit/submissionAudit'
-      this.$axios.get(url)
+      let url =this.HOST+'/mtalk/audit/submissionAudit'
+      this.$axios.post(url,{
+        "status":"1",
+        "auId":"AP15241377310055"
+      })
         .then(res => {
           console.log(res)
         })
