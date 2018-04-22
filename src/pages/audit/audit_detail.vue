@@ -3,16 +3,16 @@
     <div class="bg">
       <div class="cell">
         <div class="cell-l">负责人</div>
-        <div class="cell-r">李明</div>
+        <div class="cell-r">{{detailData.name}}</div>
       </div>
       <div class="cell">
         <div class="cell-l">负责人电话</div>
-        <div class="cell-r">13672181117</div>
+        <div class="cell-r">{{detailData.phoneNo}}</div>
       </div>
       <!--身份证号码-->
       <div class="cell">
         <div class="cell-l">身份证号码</div>
-        <div class="cell-r">45217119851223</div>
+        <div class="cell-r">{{detailData.IdCard }}</div>
       </div>
       <div class="id-num">
         <div class="id-title">负责人身份证</div>
@@ -26,8 +26,8 @@
       </div>
     </div>
     <div class="btn-wap">
-      <div class="btn">拒绝通过</div>
-      <div class="btn">确认通过</div>
+      <div class="btn" @click="refuse">拒绝通过</div>
+      <div class="btn" @click="pass">确认通过</div>
     </div>
   </div>
 </template>
@@ -35,7 +35,66 @@
 <script>
 
   export default {
-    name: "self_auth"
+    name: "self_auth",
+    data(){
+      return{
+        detailData:[]
+      }
+    },
+    created(){
+      let url = this.HOST+"/mtalk/audit/getAuditMsg";
+      this.$axios.post(url,{
+          auId :"AP15241377310055"
+      })
+        .then(res => {
+          console.log(res.data.data)
+          if (res.data.code==100){
+            this.detailData=res.data.data
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    methods:{
+      pass(){
+        console.log('通过')
+        let url =this.HOST+"/mtalk/audit/submissionAudit";
+        this.$axios.post(url,{
+          status:"1",
+          auId:"AP15241377310055"
+        })
+          .then(res => {
+            console.log(res.data.code)
+            if (res.data.code==100){
+              this.$router.push({
+                path: '/',
+              })
+            }
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      },
+      refuse(){
+        console.log("拒绝")
+        let url =this.HOST+"/mtalk/audit/submissionAudit";
+        this.$axios.post(url,{
+          status:"2",
+          auId:"AP15241377310055"
+        })
+          .then(res => {
+            if (res.data.code==100){
+              this.$router.push({
+                path: '/',
+              })
+            }
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+    }
   }
 </script>
 

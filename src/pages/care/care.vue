@@ -412,11 +412,11 @@
 
 <style scoped>
   .bg1{
-    background: url("../../assets/image/kheart@3x.png") no-repeat 0 center;
+    background: url("../../assets/image/care-heart.png") no-repeat 0 center;
     background-size:17px 17px;
   }
   .bg2{
-    background: url("../../assets/image/heart@2x.png") no-repeat 0 center;
+    background: url("../../assets/image/care-red-heart.png") no-repeat 0 center;
     background-size:17px 17px;
   }
   .container {

@@ -1,56 +1,55 @@
 <template>
   <div class="sq-dynamic">
     <div class="bg">
-      <div class="dynamic-head">
+      <div class="dynamic-head" v-for="listItem in listData">
         <div class="left">
           <div class="dynamic-head-l"><img src="../../assets/image/head.png" alt=""></div>
+          <!--<div class="dynamic-head-l"><img :src="listItem.gImg" alt=""></div>-->
           <div class="dynamic-head-r">
-            <h2>蓝天志愿协会</h2>
-            <p>2018-2-23</p>
+            <h2>{{listItem.ad}}</h2>
+            <p>{{listItem.createTime}}</p>
           </div>
         </div>
-        <div class="right wait">待审核</div>
-        <!--<div class="right pass">已通过</div>-->
-        <!--<div class="right refuse">已拒绝</div>-->
+
+        <div class="right wait" v-if="listItem.status==0" @click="goDetail">待审核</div>
+        <div class="right pass" v-else-if="listItem.status==1">已通过</div>
+        <div class="right refuse" v-else>已拒绝</div>
       </div>
     </div>
-
-    <div class="bg">
-      <div class="dynamic-head">
-        <div class="left">
-          <div class="dynamic-head-l"><img src="../../assets/image/head.png" alt=""></div>
-          <div class="dynamic-head-r">
-            <h2>蓝天志愿协会</h2>
-            <p>2018-2-23</p>
-          </div>
-        </div>
-        <!--<div class="right wait">待审核</div>-->
-        <div class="right pass">已通过</div>
-        <!--<div class="right refuse">已拒绝</div>-->
-      </div>
-    </div>
-
-    <div class="bg">
-      <div class="dynamic-head">
-        <div class="left">
-          <div class="dynamic-head-l"><img src="../../assets/image/head.png" alt=""></div>
-          <div class="dynamic-head-r">
-            <h2>蓝天志愿协会</h2>
-            <p>2018-2-23</p>
-          </div>
-        </div>
-        <!--<div class="right wait">待审核</div>-->
-        <!--<div class="right pass">已通过</div>-->
-        <div class="right refuse">已拒绝</div>
-      </div>
-    </div>
-
   </div>
 </template>
 
 <script>
   export default {
-    name: "console_list"
+    name: "console_list",
+    data(){
+      return{
+        listData:[]
+      }
+    },
+    created(){
+      let url = this.HOST+"/mtalk/audit/getAuditMsgs";
+      this.$axios.post(url,{
+
+      })
+        .then(res => {
+          console.log(res.data)
+          if (res.data.code==100){
+            this.listData=res.data.data
+          }
+
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    methods:{
+      goDetail(){
+        this.$router.push({
+          path: 'auditdetail',
+        })
+      }
+    }
   }
 </script>
 
@@ -88,6 +87,9 @@
   }
   .dynamic-head .wait{
     background: #FF7272;
+  }
+  .dynamic-head .wait:active{
+    background: #F55E5E;
   }
   .dynamic-head .pass{
     background: #ffffff;
